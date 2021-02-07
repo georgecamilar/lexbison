@@ -1,41 +1,20 @@
 %{
-	#include <iostream>
-	#include <string>
 	#include <cstdio>
-	using namespace std;
 
-	extern "C" int yylex();
-	FILE* file;
+	#include "app.tab.h"
 %}
 
 %option noyywrap
 
 %%
-
-[0-9]+ {
-	printf("Hit a number");
+[\t\n] 	;
+[0-9]+\.[0-9]+ { yylval.floatValue = atof(yytext); }
+[0-9]+ { yylval.intValue = atoi(yytext); }
+[a-zA-Z0-9]+ {
+	yylval.charValue = strdup(yytext);
+	return STRING;
 }
-
-[0-9]+\.[0-9]+  { 
-	cout << "Found a floating-point number:" << yytext << endl;
-}
-
-
-[a-zA-Z]+ {
-	cout<<"Found a word"<<endl;
-	writeToFile(yylex, 1);
-}
-
 
 %%
 
-
-void writeToFile(char* line, int status){
-	file = fopen("./data/data.txt", "w")
-}
-
-int main(){
-	yylex();
-	return 0;
-}
 
