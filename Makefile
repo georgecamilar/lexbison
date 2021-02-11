@@ -1,25 +1,28 @@
+run:
+	make clean compile move package execute
+
+#clean the old executions
 clean:
 	rm -rf target
 
-flex:
+#1. create the target folder for the files to be generated
+#2. use bison and flex to compile 
+compile:
 	mkdir target
-	flex app.l
-	g++ lex.yy.c -o output.o 
-	mv lex.yy.c ./target/lex.yy.c
-	mv output.o ./target/output.o
-	./target/output.o
-	
-run:
-	clean flex bison execute
-
-
-bison:
 	bison -d app.y
 	flex app.l
-	g++ app.tab.c lex.yy.c -deprecated -o app 
-	./app
 
-cleanBison:
-	rm -f app.tab.c
-	rm -f app.tab.h
-	rm -f lex.yy.c
+#move the files generated to the target folder
+move: 
+	mv lex.yy.c ./target/lex.yy.c	
+	mv app.tab.c ./target/app.tab.c
+	mv app.tab.h ./target/app.tab.h
+
+#execute the generated files and create the executable file
+package:
+	g++ ./target/app.tab.c ./target/lex.yy.c -o output.o 
+	mv output.o ./target/output.o
+
+#execute the generated file
+execute:
+	./target/output.o
