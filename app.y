@@ -11,7 +11,7 @@
     void addCode(char code[1000]);
     extern int yyerror(const char* s);
     extern int yylex();
-
+	extern int yylineno;
 %}
 
 
@@ -22,8 +22,8 @@
 
 %error-verbose
 
-%token <intValue> INT
-%token <string> STRING
+%token INT
+%token STRING
 %token RRARROWS
 %token CIN
 %token LLARROWS
@@ -39,7 +39,7 @@
 
 program: HEADER NAMESPACESTATEMENT programBody ;
 programBody: INT IDENTIFIER '{' code '}' ;
-code: instruction instructionOrDeclaration | instructionOrDeclaration;
+code: instructionOrDeclaration code | instructionOrDeclaration ;
 instructionOrDeclaration: declaration | instruction ;
 declaration: INT IDENTIFIER ';' {
             char code[1000];
