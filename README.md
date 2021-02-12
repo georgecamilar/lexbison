@@ -1,7 +1,8 @@
 Simple Project Try for flex and bison understanding
 
+To see mutiple possibilities of running the program, check the Makefile
 
-Makefile commands:
+Run with :
+* make run 
 
-make clean
-make flex
+The asm code will be generated into the target folder
